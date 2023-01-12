@@ -1,93 +1,133 @@
 
 
-prompt("Ingrese SI para ver los precios + IVA de los productos que tenemos disponibles")
+function registrarse(){
 
-let productos = [ 
-    {nombre: "pochoclera a gas" , precio:120000},
-    {nombre: "pochoclera electrica con mostrador grande" , precio:230000},
-    {nombre: "pochoclera electrica con mostrador chico" , precio:110000},
-    {nombre: "pochoclera industrial" , precio:400000},
+    let nombre_cliente = document.getElementById("nombre_cliente");
+    let mensaje = document.getElementById("mensaje");
 
-
-]
-
-function agregar_iva ( producto ){
+    if( nombre_cliente.value == "Camila"){
+        let parrafo = document.createElement("p");
+        parrafo.innerText = "Bienvenidx a la pagina";
+        mensaje.append(parrafo);
+    }
+    else{
+        mensaje.innerHTML = '<h2>NO SOS CLIENTE</h2>'
     
-    let iva = producto.precio * 0.21;
-
-    return {
-        nombre:producto.nombre,
-
-        precio:producto.precio + iva
-
-   
+                           '<p>El cliente: ${nombre_cliente.value} no se encontro</p>'
     }
-}
-
-let resultado_map = productos.map( agregar_iva );
-console.log( " Productos que tenemos disponibles con su iva correspondiente son: " , resultado_map );
-
-function calcula_iva( precio ){
-
-    let iva = precio * 0.21;
-
-    return iva
 
 }
 
-function calcular_cuota( precio, cuotas){
+let carrito = [];
 
-    if( cuotas == 3){
-        let cuota = precio * 0.03;
-        return cuota
+
+
+function agregar_a_carrito(e){
+
+    
+    console.log(e.target);
+    let hijo = e.target;
+    let padre = hijo.parentNode;
+    let abuelo = padre.parentNode;
+
+
+    let nombre_producto = padre.querySelector("h5").textContent;
+    let precio_producto = padre.querySelector("span").textContent;
+    let img_producto =  abuelo.querySelector("img").src;
+
+    console.log(nombre_producto);
+    console.log(precio_producto);
+    console.log(img_producto);
+
+
+    let producto = {
+        nombre: nombre_producto,
+        precio: precio_producto,
+        img: img_producto,
+        cantidad: 1
+    };
+
+    
+    /* GUARDAR EN LOCALSTORA COMO JSON
+    carrito.push(producto);
+    */
+
+    mostrar_carrito( producto );
+}
+
+
+function mostrar_carrito( producto){
+
+    let fila = document.createElement("tr");
+    fila.innerHTML = `<td><img src="${producto.img}"></td>
+                      <td>${producto.nombre}</td>
+                      <td>${producto.cantidad}</td>
+                      <td>${producto.precio}</td>
+                      <td><button class="btn btn-danger borrar_elemento">Borrar</button></td>
+                      `;    
+
+    let tabla = document.getElementById("tbody");
+    tabla.append( fila );
+
+    let btn_borrar = document.querySelectorAll(".borrar_elemento");
+
+
+    for( let boton of btn_borrar){
+
+        boton.addEventListener("click" , borrar_producto);
     }
-    else if( cuotas == 6){
-        let cuota = precio * 0.10;
-        return cuota
+
+}
+
+
+function borrar_producto(e){
+
+    let abuelo = e.target.parentNode.parentNode;
+    abuelo.remove();
+
+}
+
+
+
+let btn_carrito = document.getElementById("mostrar_carrito");
+
+
+btn_carrito.addEventListener("click", function(){
+
+    let carrito = document.getElementById("carrito");
+
+    if( carrito.style.display != "none"){
+
+        carrito.style.display = "none";
     }
-    else if(cuotas == 12){
-        let cuota = precio * 0.20;
-        return cuota
+
+    else{
+        carrito.style.display = "block";
     }
+
+
+})
+
+
+let btn_compra = document.querySelectorAll(".botonCompra");
+
+console.log(btn_compra);
+
+
+for( let boton of btn_compra){
+
+    boton.addEventListener("click" , agregar_a_carrito);
 }
 
-let producto = prompt ( "Ingrese pochoclera industrial para saber su valor en cuotas o SALIR");
+localStorage.setItem("alquiler_pochoclera" , "Electrica");
+localStorage.setItem("valor" , 5000);
+localStorage.setItem("colores" , ["rojo" , "azul" , "blanco"])
 
+let pochoclera_uno = localStorage.getItem("alquiler_pochoclera");
+let valor_maquina = localStorage.getItem("valor");
+let colores = localStorage.getItem("colores");
 
-let maquina_industrial = 4000000;
-
-
-
-while (producto == "SALIR") {
-console.log("No podes calcular el valor final en cuotas");
-producto = prompt ( "Ingrese pochoclera para saber su valor en cuotas o SALIR");
-}
-
-let cuotas = prompt("Ingrese la cantidad de cuotas 3 , 6 , 12");
-
-let iva = calcula_iva(maquina_industrial);
-let monto_cuotas = calcular_cuota(maquina_industrial, cuotas);
-
-
-
-console.log("En " , cuotas , "pagas: " , maquina_industrial + iva  + monto_cuotas);
-console.log("Por mes pagas: ", calcular_cuota(maquina_industrial, cuotas))
-
-
-let lista_productos = [ 
-    {nombre: "pochoclera a gas" , precio:120000},
-    {nombre: "pochoclera electrica con mostrador grande" , precio:230000},
-    {nombre: "pochoclera electrica con mostrador chico" , precio:110000},
-    {nombre: "pochoclera industrial" , precio:400000},
-
-]
-
-function menor_precio ( producto ) {
-
-    return producto.precio <= 110000
-
-}
-
-let resultado_filter = lista_productos.filter ( menor_precio );
-console.log("El precio de la máquina más economica que tenemos disponible es: " , resultado_filter)
+console.log( pochoclera_uno );
+console.log( valor_maquina );
+console.log( colores );
 
