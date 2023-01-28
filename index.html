@@ -63,6 +63,37 @@
     
           display:flex;
         }
+
+        #contenedor {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-gap: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#caja1, #caja2 {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+
+    width: 200px;
+    height: 200px;
+}
+
+#caja1 {
+    background-color: rgba(253, 146, 240, 0.766);
+    color:azure;    
+}
+#caja2 {
+    background-color: rgb(255, 255, 255);
+    color:azure;    
+}
+
+
+
         </style>
     
       </head>
@@ -175,7 +206,22 @@
     
           </div>
         </div>
+
+        <div id="contenedor">
+          <div id="caja1">
+            <p id="temperatura-descripcion"></p>
+            <p id="temperatura-valor"></p>
         
+            <div id="caja2">
+              <p id="ubicacion"></p>
+              <img id="iconoAnimado" src="" alt="" height="130" width="130">
+              
+            </div>
+          </div>
+        
+        </div>
+        
+
     
     
         <script src="miarchivo.js"></script>

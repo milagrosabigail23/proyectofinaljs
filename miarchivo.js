@@ -131,3 +131,66 @@ console.log( pochoclera_uno );
 console.log( valor_maquina );
 console.log( colores );
 
+
+
+
+let temperaturaDescripcion = document.getElementById('temperatura-descripcion')
+let temperaturaValor = document.getElementById('temperatura-valor')
+
+
+let apikey = "4b6ea81e95fc6079cced87c16a5f814c"
+
+fetch("https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&lang=es&units=metric&appid=4b6ea81e95fc6079cced87c16a5f814c")
+    .then(response=> response.json())
+    .then(data=>{
+        console.log("Temp: " , data.main.temp);
+        let temp = Math.round(data.main.temp)
+        temperaturaValor.textContent = `${temp}°C `
+        
+        ubicacion.textContent = data.name
+
+
+        let desc = data.weather[0].description
+        temperaturaDescripcion.textContent = desc.toUpperCase()
+
+        //iconos
+        switch (data.weather[0].main) {
+            case 'Thunderstorm':
+                iconoAnimado.src='animated/thunder.svg'
+                
+                break;
+            case 'Drizzle':
+                iconoAnimado.src='animated/rainy-2.svg'
+                
+                break;
+            case 'Rain':
+                iconoAnimado.src='animated/rainy-7.svg'
+                
+                break;
+            case 'Snow':
+                iconoAnimado.src='animated/snowy-6.svg'
+        
+                break;                        
+            case 'Clear':
+                iconoAnimado.src='animated/day.svg'
+                
+                break;
+            case 'Atmosphere':
+                iconoAnimado.src='animated/weather.svg'
+                
+                break;  
+            case 'Clouds':
+                iconoAnimado.src='animated/cloudy-day-1.svg'
+                
+            break;  
+            default:
+                iconoAnimado.src='animated/cloudy-day-1.svg'
+            }
+        }
+
+    )
+    .catch( error => {
+        console.log(error)
+    }
+    )
+
